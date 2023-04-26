@@ -1,7 +1,3 @@
-# REI Print Mail Site
-
-This repository contains the frontend app for reiprintmail.com 
-
 
 ## Getting started
 
