@@ -1,0 +1,31 @@
+# run gitlab-ci local
+# https://github.com/firecow/gitlab-ci-local
+
+image: node:latest
+
+stages:
+  - code_quality
+  - test
+
+sast:
+  stage: code_quality
+  include:
+    - template: Security/SAST.gitlab-ci.yml
+    - template: Security/Dependency-Scanning.gitlab-ci.yml
+    # https://docs.gitlab.com/ee/user/application_security/secret_detection/#enable-secret-detection
+    - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+# this will currently fail because of Mitosis dependencies
+#security-scan:
+#  stage: code_quality
+#  image: node:latest
+#  script:
+#    - yarn install
+#    - yarn audit
+#    # - yarn audit fix
+
+test-unit:
+  stage: test
+  script:
+    - yarn install
+    - yarn run test
